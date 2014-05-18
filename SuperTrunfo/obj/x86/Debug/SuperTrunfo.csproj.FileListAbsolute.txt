@@ -1,0 +1,9 @@
+C:\Users\Maria\Desktop\SuperTrunfo\SuperTrunfo\obj\x86\Debug\SuperTrunfo.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Desktop\SuperTrunfo\SuperTrunfo\bin\Debug\SuperTrunfo.exe.config
+C:\Users\Maria\Desktop\SuperTrunfo\SuperTrunfo\bin\Debug\SuperTrunfo.exe
+C:\Users\Maria\Desktop\SuperTrunfo\SuperTrunfo\bin\Debug\SuperTrunfo.pdb
+C:\Users\Maria\Desktop\SuperTrunfo\SuperTrunfo\obj\x86\Debug\SuperTrunfo.exe
+C:\Users\Maria\Desktop\SuperTrunfo\SuperTrunfo\obj\x86\Debug\SuperTrunfo.pdb
+C:\Users\Maria\Desktop\Pedro\SuperTrunfo\SuperTrunfo\bin\Debug\SuperTrunfo.exe.config
+C:\Users\Maria\Desktop\Pedro\SuperTrunfo\SuperTrunfo\obj\x86\Debug\SuperTrunfo.exe
+C:\Users\Maria\Desktop\Pedro\SuperTrunfo\SuperTrunfo\obj\x86\Debug\SuperTrunfo.pdb
