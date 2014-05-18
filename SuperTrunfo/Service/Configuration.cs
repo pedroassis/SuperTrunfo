@@ -15,6 +15,8 @@ namespace SuperTrunfo
             Container.set(new GameObserver());
 
             Container.set(new PlayerService());
+
+            Container.set(new WebSocketService());
         }
     }
 }

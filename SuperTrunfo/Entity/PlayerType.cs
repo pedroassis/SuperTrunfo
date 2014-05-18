@@ -8,6 +8,7 @@ namespace SuperTrunfo
     enum PlayerType
     {
         LOCAL,
+        NPC,
         REMOTE
     }
 }
