@@ -15,7 +15,7 @@ namespace SuperTrunfo
 
             socket.onMessage((message) => Console.WriteLine(message));
 
-            socket.onOpen(() => socket.sendMessage("Ola"));
+            //socket.onOpen(() => socket.sendMessage("Ola"));
 
             socket.open();           
 

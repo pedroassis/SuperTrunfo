@@ -7,9 +7,9 @@ namespace SuperTrunfo
 {
     interface PlayerService{
 
-        public Player createPlayer();
+        Player createPlayer();
 
-        public void play(Player player);
+        void play(Player player);
 
     }
 }

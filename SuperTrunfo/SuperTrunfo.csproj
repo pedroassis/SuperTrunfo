@@ -55,33 +55,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Bcl.Build.Tasks">
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\.nuget\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\SocketIO.Client.Net40\bin\Debug\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\SocketIO.Client.Net40\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\SocketIO.Client.Net40\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\.nuget\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SocketIO.Client.Net40">
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\SocketIO.Client.Net40\bin\Debug\SocketIO.Client.Net40.dll</HintPath>
+    <Reference Include="Newtonsoft.Json.Compact">
+      <HintPath>..\..\New Unity Project\New Unity Project\Assets\Plugins\Newtonsoft.Json.Compact.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="WebSocket4Net, Version=0.9.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\socketio4net-develop\socketio4net-develop\.nuget\WebSocket4Net.0.8\lib\net40\WebSocket4Net.dll</HintPath>
+    <Reference Include="websocket-sharp">
+      <HintPath>..\..\New Unity Project\New Unity Project\Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\Message.cs" />
     <Compile Include="Entity\PlayerType.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -92,7 +75,12 @@
     <Compile Include="Datasource\DataSource.cs" />
     <Compile Include="Service\Configuration.cs" />
     <Compile Include="Service\Container.cs" />
+    <Compile Include="Service\GameState.cs" />
+    <Compile Include="Service\LocalPlayerService.cs" />
+    <Compile Include="Service\NPCPlayerService.cs" />
+    <Compile Include="Service\OnlinePlayerService.cs" />
     <Compile Include="Service\PlayerService.cs" />
+    <Compile Include="Service\TurnService.cs" />
     <Compile Include="Strategy\Strategy.cs" />
     <Compile Include="Strategy\DataSourceStrategy.cs" />
     <Compile Include="Observer\Events.cs" />

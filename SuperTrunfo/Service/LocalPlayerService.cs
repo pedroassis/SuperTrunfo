@@ -14,11 +14,11 @@ namespace SuperTrunfo
             gameObserver = Container.get<GameObserver>();
         }
 
-        public Player PlayerService.createPlayer(){
+        public Player createPlayer(){
             return new Player(System.Guid.NewGuid().ToString(), new List<Card>(), null, PlayerType.LOCAL);
         }
 
-        public void PlayerService.play(Player player){
+        public void play(Player player){
             if(player != localPlayer){
                 throw new InvalidOperationException("Not the local player. Only one local player is allowed.");
             }
