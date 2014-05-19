@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SuperTrunfo
 {
@@ -14,7 +13,7 @@ namespace SuperTrunfo
 
             Container.set(new GameObserver());
 
-            Container.set(new PlayerService());
+            Container.set(new TurnService());
 
             Container.set(new WebSocketService());
         }

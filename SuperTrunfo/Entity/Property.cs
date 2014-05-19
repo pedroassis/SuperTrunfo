@@ -12,6 +12,7 @@ namespace SuperTrunfo
         INTELIGENCE,
         EQUIPMENT,
         VELOCITY,
+
         NONE
     }
 }

@@ -5,11 +5,10 @@ using System.Text;
 
 namespace SuperTrunfo
 {
-    interface PlayerService{
-
-        public Player createPlayer();
-
-        public void play(Player player);
-
+    enum GameState
+    {
+        PLAYING,
+        PAUSE,
+        NOT_STARTED
     }
 }

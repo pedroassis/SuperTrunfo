@@ -2,42 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using SocketIOClient;
-using SocketIOClient.Messages;
+using WebSocketSharp;
 using Newtonsoft.Json;
 
 namespace SuperTrunfo
 {
     class WebSocketService
     {
-        
-        private Client 
-            webSocket = new Client("http://localhost:81");
 
-        private List<Action<Object>> listeners = new List<Action<object>>();
+        private WebSocket webSocket = new WebSocket("ws://localhost:81");
+
+        private List<Action<Object>> listeners = new List<Action<Object>>();
         
         public void onMessage(Action<Object> listener) {
             listeners.Add(listener);
         }
 
-        public void sendMessage(Object message) {
-            webSocket.Emit("news", message.ToString());
+        public void sendMessage<T>(Message<T> message) {
+            webSocket.Send(JsonConvert.SerializeObject(message));
         }
 
         public void open() {
 
-            webSocket.On("news", (data) => {
-                listeners.ForEach((listener) => listener(data.MessageText));
-            });
+            webSocket.OnMessage += (sender, message) => {
+                listeners.ForEach((listener) => listener(JsonConvert.DeserializeObject(message.Data)));
+            };
 
             webSocket.Connect();
         }
 
         public void onOpen(Action listener) {
-            webSocket.On("connect", (sender) => {
+            webSocket.OnOpen += (sender, e) => {
                 listener();
-            });
+            };
         }
     }
 }

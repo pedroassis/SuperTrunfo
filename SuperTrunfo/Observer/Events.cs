@@ -10,6 +10,8 @@ namespace SuperTrunfo
         END_TURN,
         TURN_WINNER,
         NEXT_PLAYERS_TURN,
+        LOCAL_PLAYERS_TURN,
+        NPC_TURN,
         TRUMPH_ON_GAME,
 
 		ENEMY_DOWN,

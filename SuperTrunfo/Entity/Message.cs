@@ -5,11 +5,10 @@ using System.Text;
 
 namespace SuperTrunfo
 {
-    interface PlayerService{
+    class Message<T> {
 
-        public Player createPlayer();
-
-        public void play(Player player);
+        public String name;
+        public T      message;
 
     }
 }

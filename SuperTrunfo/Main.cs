@@ -6,7 +6,7 @@ namespace SuperTrunfo
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
+		public static void Main ()
 		{
 
             Configuration.configure();
