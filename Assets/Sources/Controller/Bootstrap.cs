@@ -7,7 +7,6 @@ public class Bootstrap : MonoBehaviour {
     private TimeoutService timeout;
 
 	void Start () {
-        Configuration.configure();
         DontDestroyOnLoad(this);
 
         Application.LoadLevel("MainMenu");

@@ -8,14 +8,13 @@ namespace SuperTrunfo
     class Container
     {
         private static readonly Dictionary<Type, Object> instances = new Dictionary<Type, object>();
-        private static bool isConfigured = false;
 
         static Container() {
 
         }
 
         public static T get<T>() {
-            if(!isConfigured){
+            if(!Configuration.isConfigured){
                 Configuration.configure();
             }
             return (T) instances[typeof(T)];

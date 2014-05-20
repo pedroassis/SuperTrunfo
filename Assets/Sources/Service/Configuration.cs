@@ -7,8 +7,11 @@ namespace SuperTrunfo
 {
     class Configuration
     {
+        public static bool isConfigured = false;
 
         public static void configure() {
+
+            isConfigured = true;
 
             Container.set(new GameObserver());
 
