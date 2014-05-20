@@ -7,8 +7,9 @@ namespace SuperTrunfo
 {
     class Message<T> {
 
-        public String name;
-        public T      message;
+        public String    name;
+        public T         message;
+        public String    className;
 
     }
 }

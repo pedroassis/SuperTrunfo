@@ -24,9 +24,13 @@ namespace SuperTrunfo
 
         public void open() {
 
-            webSocket.OnMessage += (sender, message) => {
-                listeners.ForEach((listener) => listener(JsonConvert.DeserializeObject(message.Data)));
-            };
+            webSocket.OnMessage += (sender, message) =>
+                listeners.ForEach((listener) => {
+                    var messageObject = JsonConvert.DeserializeObject<Message<Object>>(message.Data);
+
+                    listener(JsonConvert.DeserializeObject(message.Data, Type.GetType(messageObject.className)));
+                });
+            ;
 
             webSocket.Connect();
         }

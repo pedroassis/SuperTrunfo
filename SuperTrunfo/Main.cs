@@ -6,18 +6,33 @@ namespace SuperTrunfo
 {
 	class MainClass
 	{
+
+
 		public static void Main ()
 		{
-
-            Configuration.configure();
-
+            
             WebSocketService socket = Container.get<WebSocketService>();
 
             socket.onMessage((message) => Console.WriteLine(message));
 
-            //socket.onOpen(() => socket.sendMessage("Ola"));
+            Card card = new Card("A1", "21", 2121, 212121, 21212121, 21212, 2121212121);
 
-            socket.open();           
+            Message<Card> messageObj = new Message<Card>();
+
+            messageObj.className = card.GetType().FullName;
+
+            messageObj.name = "card";
+
+            messageObj.message = card;
+
+            socket.onOpen(() => socket.sendMessage(messageObj));
+
+            socket.open();      
+     
+            /*
+             * Should really use a Test framework ;)
+             * But no time, I guess
+             */
 
             //DataSource<Card> dataSource = Container.get<FileDataSource<Card>>();
 
