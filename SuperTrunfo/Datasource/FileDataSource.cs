@@ -7,13 +7,9 @@ using System.Reflection;
 
 namespace SuperTrunfo
 {
-    class FileDataSource<T> : DataSource<T>
+    class FileDataSource : DataSource
     {
         public DirectoryInfo folder;
-
-        private List<String> props;
-
-        private Type type;
 		
 		private String fileNameProperty;
 		
@@ -23,22 +19,30 @@ namespace SuperTrunfo
         {
             this.folder = folder;
 			this.fileNameProperty = fileNameProperty;
-            type = typeof(T);
-            readProperties();
 			if(!folder.Exists){
 				folder.Create();
 			}
         }
 
-        public List<T> getDataSource(){
+        public List<T> getDataSource<T>(){
+            Type type = typeof(T);
+
+            List<String> props = readProperties(type);
+
             List<T> dataSource = new List<T>();
 
-            FileInfo[] files = folder.GetFiles();
+            DirectoryInfo typeFolder = new DirectoryInfo(folder.FullName + type.Name);
+
+            if (!typeFolder.Exists) {
+                typeFolder.Create();
+            }
+
+            FileInfo[] files = typeFolder.GetFiles();
 
             foreach (FileInfo file in files)
             {
 
-                using (StreamReader reader = new StreamReader(folder.FullName + Path.DirectorySeparatorChar + file.Name))
+                using (StreamReader reader = new StreamReader(folder.FullName + "\\" + type.Name + Path.DirectorySeparatorChar + file.Name))
                 {
 
                     T dataSourceObject = (T) Activator.CreateInstance(type);
@@ -71,12 +75,16 @@ namespace SuperTrunfo
             return fieldType.GetMethod("Parse", new[] { typeof(string) }).Invoke(null, new String[] { (String)value });
         }
 
-        public bool setDataSource(List<T> data){
-			
-			deleteFiles();
+        public bool setDataSource<T>(List<T> data){
+
+            Type type = typeof(T);
+
+            deleteFiles(type);
+
+            List<String> props = readProperties(type);
 			
 			foreach(T obj in data){
-				using (TextWriter writer = new StreamWriter(folder.FullName + Path.DirectorySeparatorChar + getFileName(obj), true))
+				using (TextWriter writer = new StreamWriter(folder.FullName + type.Name + Path.DirectorySeparatorChar + getFileName(obj), true))
                 {
 					props.ForEach((prop) => {
 						String line = type.GetField(prop).GetValue (obj).ToString();
@@ -88,12 +96,16 @@ namespace SuperTrunfo
             return true;
         }
 		
-        public bool delete(T dataSourceItem){
-            FileInfo[] files = folder.GetFiles();
+        public bool delete<T>(T dataSourceItem){
+            Type type = typeof(T);
+
+            FileInfo[] files = new DirectoryInfo(folder.FullName + type.Name).GetFiles();
+
 			FileInfo toDelete = null;
 			
 			foreach(FileInfo file in files){
-                if (getFileName(dataSourceItem).Equals(getFileName(dataSourceItem))){
+                if (getFileName<T>(dataSourceItem).Equals(getFileName(dataSourceItem)))
+                {
 					toDelete = file;
 				}
 			}
@@ -101,8 +113,9 @@ namespace SuperTrunfo
 			if(toDelete != null) toDelete.Delete();
 			return true;
 		}
-		
-		private String getFileName(T obj){
+
+        private String getFileName<T>(T obj){
+            Type type = typeof(T);
 			String nameValue = null;
 			
 			if(nameProperty == null && fileNameProperty != null){
@@ -112,23 +125,24 @@ namespace SuperTrunfo
 			return nameValue == null ? obj.GetHashCode().ToString() : nameValue;
 		}
 		
-		private void deleteFiles(){			
+		private void deleteFiles(Type type){
 
-            FileInfo[] files = folder.GetFiles();
+            FileInfo[] files = new DirectoryInfo(folder.FullName + type.Name).GetFiles();
 			
             foreach (FileInfo file in files){
 				file.Delete();
 			}
 		}
 
-        private void readProperties() {
-            props = new List<string>();
+        private List<String> readProperties(Type type) {
+            List<String> props = new List<string>();
 
             FieldInfo[] fields = type.GetFields();
          
             foreach(FieldInfo field in fields){
                 props.Add(field.Name);
             }
+            return props;
         }
     }
 }

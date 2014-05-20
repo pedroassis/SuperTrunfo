@@ -12,16 +12,16 @@ namespace SuperTrunfo
 		{
 			type = typeof(T);
 			String name = type.Name;
-			dataSource = new FileDataSource<T>(new DirectoryInfo("C:\\Users\\Maria\\Desktop\\test\\" + name + "\\"), "id");
+			dataSource = new FileDataSource(new DirectoryInfo("C:\\Users\\Maria\\Desktop\\Pedro\\test\\"), "id");
 
             Container.set(dataSource);
 
-			cachedDataSource = dataSource.getDataSource();
+			cachedDataSource = dataSource.getDataSource<T>();
 		}
 		
 		private Type type;
 		
-		private DataSource<T> dataSource;
+		private DataSource dataSource;
 		
 		private List<T> cachedDataSource;
 		

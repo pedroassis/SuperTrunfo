@@ -11,57 +11,59 @@ namespace SuperTrunfo
 		public static void Main ()
 		{
             
-            WebSocketService socket = Container.get<WebSocketService>();
+            //WebSocketService socket = Container.get<WebSocketService>();
 
-            socket.onMessage((message) => Console.WriteLine(message));
+            //socket.onMessage((message) => Console.WriteLine(message));
 
-            Card card = new Card("A1", "21", 2121, 212121, 21212121, 21212, 2121212121);
+            //Card card = new Card("A1", "21", 2121, 212121, 21212121, 21212, 2121212121);
 
-            Message<Card> messageObj = new Message<Card>();
+            //Message<Card> messageObj = new Message<Card>();
 
-            messageObj.className = card.GetType().FullName;
+            //messageObj.className = card.GetType().FullName;
 
-            messageObj.name = "card";
+            //messageObj.name = "card";
 
-            messageObj.message = card;
+            //messageObj.message = card;
 
-            socket.onOpen(() => socket.sendMessage(messageObj));
+            //socket.onOpen(() => socket.sendMessage(messageObj));
 
-            socket.open();      
+            //socket.open();      
      
             /*
              * Should really use a Test framework ;)
              * But no time, I guess
              */
 
-            //DataSource<Card> dataSource = Container.get<FileDataSource<Card>>();
+            Configuration.configure();
 
-            //List<Card> cards = new List<Card>();
+            DataSource dataSource = Container.get<FileDataSource>();
 
-            //cards.Add(new Card("A1", "21", 2121, 212121, 21212121, 21212, 2121212121));
-            //cards.Add(new Card("A2", "32", 3232, 323232, 32323232, 3232323, 32333232));
-            //cards.Add(new Card("A3", "21", 2121, 212121, 21212121, 212121221, 2121212122));
-            //cards.Add(new Card("A4", "54", 5454, 545454, 54545454, 54545445, 545445454));
-            //cards.Add(new Card("A5", "21", 2121, 212121, 21212121, 2121212121, 2121212121));
+            List<Card> cards = new List<Card>();
 
-            //dataSource.setDataSource(cards);
+            cards.Add(new Card("A1", "21", 2121, 212121, 21212121, 21212, 2121212121));
+            cards.Add(new Card("A2", "32", 3232, 323232, 32323232, 3232323, 32333232));
+            cards.Add(new Card("A3", "21", 2121, 212121, 21212121, 212121221, 2121212122));
+            cards.Add(new Card("A4", "54", 5454, 545454, 54545454, 54545445, 545445454));
+            cards.Add(new Card("A5", "21", 2121, 212121, 21212121, 2121212121, 2121212121));
 
-            //cards = dataSource.getDataSource();
+            dataSource.setDataSource(cards);
 
-            //cards.ForEach((card) =>
-            //{
-            //    Console.WriteLine(card.name);
-            //});
+            cards = dataSource.getDataSource<Card>();
 
-            //DataSourceStrategy<Card> strategy = Container.get <DataSourceStrategy<Card>>();
+            cards.ForEach((card) =>
+            {
+                Console.WriteLine(card.name);
+            });
 
-            //Console.WriteLine(strategy.getById("A2").id);
-            //Console.WriteLine(strategy.getById("A2").name);
-            //Console.WriteLine(strategy.getById("A2").hability);
-            //Console.WriteLine(strategy.getById("A2").force);
-            //Console.WriteLine(strategy.getById("A2").velocity);
-            //Console.WriteLine(strategy.getById("A2").equipment);
-            //Console.WriteLine(strategy.getById("A2").inteligence);
+            DataSourceStrategy<Card> strategy = Container.get<DataSourceStrategy<Card>>();
+
+            Console.WriteLine(strategy.getById("A2").id);
+            Console.WriteLine(strategy.getById("A2").name);
+            Console.WriteLine(strategy.getById("A2").hability);
+            Console.WriteLine(strategy.getById("A2").force);
+            Console.WriteLine(strategy.getById("A2").velocity);
+            Console.WriteLine(strategy.getById("A2").equipment);
+            Console.WriteLine(strategy.getById("A2").inteligence);
 
             Console.ReadKey();
 		}
