@@ -14,6 +14,7 @@ public class PlayLocalController : MonoBehaviour {
 
     public PlayLocalController() {
         Configuration.configure();
+        gameObserver = Container.get<GameObserver>();
     }
 
     void Start() {
