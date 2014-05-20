@@ -4,16 +4,34 @@ using SuperTrunfo;
 
 public class PlayLocalController : MonoBehaviour {
 
-    private GameObserver gameObserver = Container.get<GameObserver>();
+    private GameObserver    gameObserver;
 
     public GUITexture active;
     public GUITexture inactive;
+
+    public Texture activeTex;
+    public Texture inactiveTex;
+
+    public PlayLocalController() {
+        Configuration.configure();
+    }
+
+    void Start() {
+        inactiveTex = inactive.texture;
+        activeTex   = active.texture;
+    }
 
     public string eventName;
     
 	void OnMouseOver(){
 		if(Input.GetMouseButtonDown(0)){
-            gameObserver.trigger(Events.START_LOCAL_GAME, null);
+            this.gameObject.guiTexture.texture = activeTex;
+            TimeoutService.setTimeout(() => {
+                this.gameObject.guiTexture.texture = inactiveTex;
+
+                gameObserver.trigger(eventName, eventName);
+
+            }, 250);
 		}
 	}
 

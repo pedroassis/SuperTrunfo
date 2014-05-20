@@ -66,11 +66,11 @@
      <Compile Include="Assets\Sources\Service\NPCPlayerService.cs" />
      <Compile Include="Assets\Sources\Service\OnlinePlayerService.cs" />
      <Compile Include="Assets\Sources\Service\PlayerService.cs" />
+     <Compile Include="Assets\Sources\Service\TimeoutService.cs" />
      <Compile Include="Assets\Sources\Service\TurnService.cs" />
      <Compile Include="Assets\Sources\Service\WebSocketService.cs" />
      <Compile Include="Assets\Sources\Strategy\DataSourceStrategy.cs" />
      <Compile Include="Assets\Sources\Strategy\Strategy.cs" />
-     <None Include="Assets\Plugins\Newtonsoft.Json.Compact.xml" />
  <Reference Include="Newtonsoft.Json.Compact">
  <HintPath>Assets\Plugins\Newtonsoft.Json.Compact.dll</HintPath>
  </Reference>

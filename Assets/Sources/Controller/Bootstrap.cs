@@ -4,10 +4,18 @@ using SuperTrunfo;
 
 public class Bootstrap : MonoBehaviour {
 
-	// Use this for initialization
+    private TimeoutService timeout;
+
 	void Start () {
         Configuration.configure();
+        DontDestroyOnLoad(this);
 
         Application.LoadLevel("MainMenu");
 	}
+
+    void Update() {
+        TimeoutService.check();
+    }
+
+
 }

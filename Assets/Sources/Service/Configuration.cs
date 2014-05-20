@@ -7,15 +7,18 @@ namespace SuperTrunfo
 {
     class Configuration
     {
+
         public static void configure() {
-            
-            Container.set(new DataSourceStrategy<Card>());
 
             Container.set(new GameObserver());
 
-            Container.set(new TurnService());
+            Container.set(new DataSourceStrategy<Card>());
 
             Container.set(new WebSocketService());
+
+            Container.set(new TurnService());
+
+            Container.set(new TimeoutService());
         }
     }
 }
