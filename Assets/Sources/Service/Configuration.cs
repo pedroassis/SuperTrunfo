@@ -11,6 +11,9 @@ namespace SuperTrunfo
 
         public static void configure() {
 
+            if (Configuration.isConfigured){
+                return;
+            }
             isConfigured = true;
 
             Container.set(new GameObserver());
@@ -20,6 +23,12 @@ namespace SuperTrunfo
             Container.set(new WebSocketService());
 
             Container.set(new TurnService());
+
+            Container.set(new LocalPlayerService());
+
+            Container.set(new NPCPlayerService());
+
+            Container.set(new OnlinePlayerService());
 
             Container.set(new TimeoutService());
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SuperTrunfo.Assets.Service
+namespace SuperTrunfo
 {
     class OnlinePlayerService : PlayerService{
         

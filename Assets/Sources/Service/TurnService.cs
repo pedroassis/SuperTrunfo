@@ -10,7 +10,7 @@ namespace SuperTrunfo
 
         private GameObserver            gameObserver = Container.get<GameObserver>();
 
-        public  List<Player>            players;
+        public  List<Player>            players = new List<Player>();
 
         public  Player                  currentPlayer;
 

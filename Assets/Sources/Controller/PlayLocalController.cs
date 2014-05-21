@@ -17,11 +17,6 @@ public class PlayLocalController : MonoBehaviour {
         gameObserver = Container.get<GameObserver>();
     }
 
-    void Start() {
-        inactiveTex = inactive.texture;
-        activeTex   = active.texture;
-    }
-
     public string eventName;
     
 	void OnMouseOver(){
@@ -30,7 +25,8 @@ public class PlayLocalController : MonoBehaviour {
             TimeoutService.setTimeout(() => {
                 this.gameObject.guiTexture.texture = inactiveTex;
 
-                gameObserver.trigger(eventName, eventName);
+                Debug.Log("GUI." + eventName);
+                gameObserver.trigger("GUI." + eventName, eventName);
 
             }, 250);
 		}
