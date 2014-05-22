@@ -160,4 +160,5 @@ obj/
 Library/
 
 Server/node_modules/
+Server/.git/
 
