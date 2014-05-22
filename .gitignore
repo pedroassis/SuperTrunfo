@@ -159,3 +159,5 @@ Temp/
 obj/
 Library/
 
+Server/node_modules/
+
