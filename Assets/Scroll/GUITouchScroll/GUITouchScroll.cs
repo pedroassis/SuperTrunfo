@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using SuperTrunfo;
 
 
 [ExecuteInEditMode] 
@@ -10,7 +12,7 @@ public class GUITouchScroll : MonoBehaviour {
     public GUIStyle rowSelectedStyle;
 	
     // Internal variables for managing touches and drags
-	private int selected = -1;
+	private Room selected;
 	private float scrollVelocity = 0f;
 	private float timeTouchPhaseEnded = 0f;
 	
@@ -28,11 +30,26 @@ public class GUITouchScroll : MonoBehaviour {
     public Rect windowRect;   // calculated bounds of the window that holds the scrolling list
 	private Vector2 listSize;  // calculated dimensions of the scrolling list placed inside the window
 
+    private List<Room> rooms = new List<Room>();
+
+    private GameObserver gameObserver = Container.get<GameObserver>();
+
+    public GUITouchScroll() {
+        gameObserver.addListener("roomAdded", (roomMessage) => {
+
+            Debug.Log("Added room " + roomMessage.GetType());
+
+            var room = roomMessage as Message<Room>;
+
+            rooms.Add(room.message);
+        });
+    }
+
     void Update()
     {
 		if (Input.touchCount != 1)
 		{
-			selected = -1;
+			selected = null;
 
 			if ( scrollVelocity != 0.0f )
 			{
@@ -58,25 +75,25 @@ public class GUITouchScroll : MonoBehaviour {
 
 		if (touch.phase == TouchPhase.Began && fInsideList)
 		{
-			selected = TouchToRowIndex(touch.position);
+			selected = rooms[TouchToRowIndex(touch.position)];
 			scrollVelocity = 0.0f;
 		}
 		else if (touch.phase == TouchPhase.Canceled || !fInsideList)
 		{
-			selected = -1;
+			selected = null;
 		}
 		else if (touch.phase == TouchPhase.Moved && fInsideList)
 		{
 			// dragging
-			selected = -1;
+            selected = null;
 			scrollPosition.y += touch.deltaPosition.y;
 		}
 		else if (touch.phase == TouchPhase.Ended)
 		{
             // Was it a tap, or a drag-release?
-            if ( selected > -1 && fInsideList )
+            if ( rooms.Contains(selected) && fInsideList )
             {
-	            Debug.Log("Player selected row " + selected);
+	            Debug.Log("Player selected row " + selected.name);
             }
 			else
 			{
@@ -119,34 +136,33 @@ public class GUITouchScroll : MonoBehaviour {
         scrollPosition = GUI.BeginScrollView (rScrollFrame, scrollPosition, rList, false, false);
             
 		Rect rBtn = new Rect(0, 0, rowSize.x, rowSize.y);
-		
-        for (int iRow = 0; iRow < numRows; iRow++)
-        {
-           	// draw call optimization: don't actually draw the row if it is not visible
-            if ( rBtn.yMax >= scrollPosition.y && 
-                 rBtn.yMin <= (scrollPosition.y + rScrollFrame.height) )
-           	{
-            	bool fClicked = false;
-               	string rowLabel = "Row Number " + iRow;
-               	
-               	if ( iRow == selected )
-               	{
-                	fClicked = GUI.Button(rBtn, rowLabel, rowSelectedStyle);
-               	}
-               	else
+
+        rooms.ForEach((room) => {
+            if (rBtn.yMax >= scrollPosition.y &&
+                 rBtn.yMin <= (scrollPosition.y + rScrollFrame.height))
+            {
+                bool fClicked = false;
+                string rowLabel = room.name;
+
+                if (room == selected)
                 {
-               		fClicked = GUI.Button(rBtn, rowLabel);
+                    fClicked = GUI.Button(rBtn, rowLabel, rowSelectedStyle);
                 }
-                
+                else
+                {
+                    fClicked = GUI.Button(rBtn, rowLabel);
+                }
+
                 // Allow mouse selection, if not running on iPhone.
-                if ( fClicked && Application.platform != RuntimePlatform.IPhonePlayer )
+                if (fClicked && Application.platform != RuntimePlatform.IPhonePlayer)
                 {
-                   Debug.Log("Player mouse-clicked on row " + iRow);
+                    Debug.Log("Player mouse-clicked on row " + room.name);
                 }
-           	}
-           	            
+            }
+
             rBtn.y += rowSize.y;
-        }
+
+        });
         GUI.EndScrollView();
 	}
 

@@ -38,7 +38,15 @@ public class GameStartController : MonoBehaviour {
 
         gameObserver.addListener("GUI.CreateRoom", (message) => {
             Debug.Log("CreateRoom");
-            
+
+            webSocketService.onMessage("roomAdded", (roomMessage) => {
+                Debug.Log(roomMessage);
+            });
+
+            webSocketService.open();
+
+            webSocketService.sendMessage<Room>(new Message<Room>("createRoom", new Room("fghg425", "Room Teste", new List<Player>()), "SuperTrunfo.Room"));
+
         });
 
         gameObserver.addListener("GUI.NPCOne", (message) => {

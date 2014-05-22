@@ -12,7 +12,7 @@ namespace SuperTrunfo
 
         private WebSocket webSocket = new WebSocket("ws://localhost:81");
 
-        private GameObserver gameObserver;
+        private GameObserver gameObserver = Container.get<GameObserver>();
         
         public void onMessage(String name, Action<Object> listener) {
             gameObserver.addListener(name, listener);
@@ -26,7 +26,15 @@ namespace SuperTrunfo
 
             webSocket.OnMessage += (sender, message) => {
                 var messageObject = JsonConvert.DeserializeObject<Message<Object>>(message.Data);
-                var messageEvent  = JsonConvert.DeserializeObject(message.Data, Type.GetType(messageObject.className));
+
+                var d1 = typeof(Message<>);
+
+                Type[] typeArgs = { Type.GetType(messageObject.className) };
+
+                var typeBuilt = d1.MakeGenericType(typeArgs);
+
+                var messageEvent = JsonConvert.DeserializeObject(message.Data, typeBuilt);
+
                 gameObserver.trigger(messageObject.name, messageEvent);
             };
 

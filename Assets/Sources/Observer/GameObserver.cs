@@ -49,7 +49,14 @@ namespace SuperTrunfo
 		public void trigger(Object evento, Object message){
 			if(customListeners.ContainsKey(evento)){
 				customListeners[evento].ForEach(delegate(Action<Object> listener){
-					listener(message);
+                    try
+                    {
+                        listener(message);
+                    }
+                    catch (Exception ex) {
+                        UnityEngine.Debug.Log("Exception " + ex.Message);
+                        UnityEngine.Debug.Log("Exception " + ex.StackTrace);
+                    }
 				});
 			}
 		}
