@@ -16,6 +16,8 @@ public class GameStartController : MonoBehaviour {
 
 	void Start () {
 
+        webSocketService.open();
+
         gameObserver.addListener("GUI.SinglePlayer", (message) => {
             Debug.Log("Play local");
             Application.LoadLevel("MainSingle");
@@ -39,13 +41,18 @@ public class GameStartController : MonoBehaviour {
         gameObserver.addListener("GUI.CreateRoom", (message) => {
             Debug.Log("CreateRoom");
 
+            GameObject game = GameObject.Find("Multiplayer");
+            Debug.Log("CreateRoom2");
             webSocketService.onMessage("roomAdded", (roomMessage) => {
-                Debug.Log(roomMessage);
+
             });
-
-            webSocketService.open();
-
-            webSocketService.sendMessage<Room>(new Message<Room>("createRoom", new Room("fghg425", "Room Teste", new List<Player>()), "SuperTrunfo.Room"));
+            Debug.Log("CreateRoom3");
+            MultiplayerScene scene = game.GetComponent<MultiplayerScene>() as MultiplayerScene;
+            Debug.Log("CreateRoom4");
+            if (scene.userInput.Length > 0) {
+                webSocketService.sendMessage<Room>(new Message<Room>("createRoom", new Room("fghg425", scene.userInput, new List<Player>()), "SuperTrunfo.Room"));
+            }
+            
 
         });
 

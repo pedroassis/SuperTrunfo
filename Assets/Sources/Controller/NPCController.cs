@@ -31,7 +31,4 @@ public class NPCController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
 }

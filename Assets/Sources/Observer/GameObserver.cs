@@ -47,6 +47,7 @@ namespace SuperTrunfo
 		}
 		
 		public void trigger(Object evento, Object message){
+            
 			if(customListeners.ContainsKey(evento)){
 				customListeners[evento].ForEach(delegate(Action<Object> listener){
                     try

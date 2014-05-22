@@ -48,6 +48,7 @@
      <Compile Include="Assets\Sources\Controller\Bootstrap.cs" />
      <Compile Include="Assets\Sources\Controller\GamePlayController.cs" />
      <Compile Include="Assets\Sources\Controller\GameStartController.cs" />
+     <Compile Include="Assets\Sources\Controller\MultiplayerScene.cs" />
      <Compile Include="Assets\Sources\Controller\NPCController.cs" />
      <Compile Include="Assets\Sources\Controller\PlayLocalController.cs" />
      <Compile Include="Assets\Sources\Datasource\DataSource.cs" />

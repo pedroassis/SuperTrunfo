@@ -32,17 +32,26 @@ public class GUITouchScroll : MonoBehaviour {
 
     private List<Room> rooms = new List<Room>();
 
-    private GameObserver gameObserver = Container.get<GameObserver>();
+    private GameObserver gameObserver           = Container.get<GameObserver>();
+
+    private WebSocketService webSocketService   = Container.get<WebSocketService>();
 
     public GUITouchScroll() {
         gameObserver.addListener("roomAdded", (roomMessage) => {
 
-            Debug.Log("Added room " + roomMessage.GetType());
-
             var room = roomMessage as Message<Room>;
+
+            UnityEngine.Debug.Log("Rooms " + rooms.Count);
 
             rooms.Add(room.message);
         });
+
+        webSocketService.sendMessage<object>(new Message<object>(
+                "getRooms",
+                null,
+                ""
+        ));
+
     }
 
     void Update()
