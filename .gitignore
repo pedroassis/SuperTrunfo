@@ -159,7 +159,6 @@ Temp/
 obj/
 Library/
 
-Server/supertrunfo/.git/
 Server/supertrunfo/.openshift/
 Server/supertrunfo/node_modules/
 
