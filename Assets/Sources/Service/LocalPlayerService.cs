@@ -11,6 +11,8 @@ namespace SuperTrunfo
 
         private WebSocketService socket;
 
+        private TurnService turnService;
+
         public Player _localPlayer;
 
         public Player localPlayer
@@ -22,6 +24,7 @@ namespace SuperTrunfo
         public LocalPlayerService() {
             gameObserver    = Container.get<GameObserver>();
             socket          = Container.get<WebSocketService>();
+            turnService     = Container.get<TurnService>();
         }
 
         public Player createPlayer(){
@@ -33,11 +36,7 @@ namespace SuperTrunfo
                 throw new InvalidOperationException("Not the local player. Only one local player is allowed.");
             }
 
-            socket.sendMessage<Player>(new Message<Player>(
-                "OnPlay",
-                player,
-                player.GetType().FullName
-            ));
+
 
             gameObserver.trigger(Events.LOCAL_PLAYERS_TURN, player);
         }

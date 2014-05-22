@@ -20,6 +20,7 @@ public class PlayLocalController : MonoBehaviour {
     }
 
     public string eventName;
+    public object eventMessage;
     
 	void OnMouseOver(){
 		if(Input.GetMouseButtonDown(0)){
@@ -28,7 +29,7 @@ public class PlayLocalController : MonoBehaviour {
                 this.gameObject.guiTexture.texture = inactiveTex;
 
                 Debug.Log("GUI." + eventName);
-                gameObserver.trigger("GUI." + eventName, eventName);
+                gameObserver.trigger("GUI." + eventName, eventMessage);
 
             }, 250);
 		}
@@ -56,5 +57,6 @@ public class PlayLocalController : MonoBehaviour {
         //Debug.Log(norm * imageHeight);
 
     }
+
 
 }
