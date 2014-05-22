@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using SuperTrunfo;
 
 public class GameStartController : MonoBehaviour {
@@ -11,6 +11,8 @@ public class GameStartController : MonoBehaviour {
     private LocalPlayerService localPlayer = Container.get<LocalPlayerService>();
 
     private NPCPlayerService NPCPlayer = Container.get<NPCPlayerService>();
+
+    private WebSocketService webSocketService = Container.get<WebSocketService>();
 
 	void Start () {
 
@@ -34,13 +36,22 @@ public class GameStartController : MonoBehaviour {
             Application.Quit();
         });
 
+        gameObserver.addListener("GUI.CreateRoom", (message) => {
+            Debug.Log("CreateRoom");
+            
+        });
+
         gameObserver.addListener("GUI.NPCOne", (message) => {
 
             Debug.Log("One");
 
+            turnService.currentRoom = new Room(System.Guid.NewGuid().ToString(), "LocalPlay", new List<Player>());
+
             turnService.addPlayer(localPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
+
+            turnService.startGame();
 
             Application.LoadLevel("GamePlay");
         });
@@ -69,8 +80,5 @@ public class GameStartController : MonoBehaviour {
             Application.LoadLevel("GamePlay");
         });
 
-        gameObserver.addListener(Events.START_MULTIPLAYER_GAME, (message) => {
-            Application.LoadLevel("ChooseRoom");
-        });
 	}
 }

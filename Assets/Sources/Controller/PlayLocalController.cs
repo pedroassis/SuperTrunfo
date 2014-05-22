@@ -12,6 +12,8 @@ public class PlayLocalController : MonoBehaviour {
     public Texture activeTex;
     public Texture inactiveTex;
 
+    public float widthPercent;
+
     public PlayLocalController() {
         Configuration.configure();
         gameObserver = Container.get<GameObserver>();
@@ -31,5 +33,28 @@ public class PlayLocalController : MonoBehaviour {
             }, 250);
 		}
 	}
+
+    void OnGUI()
+    {
+
+        float width = Screen.width * widthPercent;
+
+        float imageWidth = inactive.pixelInset.width;
+
+        float imageHeight = inactive.pixelInset.height;
+
+        float norm = imageWidth / width;
+
+        float newHeight = imageHeight / norm;
+
+        inactive.pixelInset = new Rect(-width / 2, -newHeight / 2, width, newHeight);
+
+        //Debug.Log(width);
+        //Debug.Log(imageWidth);
+        //Debug.Log(imageHeight);
+        //Debug.Log(norm);
+        //Debug.Log(norm * imageHeight);
+
+    }
 
 }

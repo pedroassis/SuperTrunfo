@@ -10,9 +10,9 @@ namespace SuperTrunfo
 
         private GameObserver            gameObserver = Container.get<GameObserver>();
 
-        public  List<Player>            players = new List<Player>();
-
         public  Player                  currentPlayer;
+
+        public List<Card>               deck;
 
         public  Property                currentProperty;
 
@@ -23,6 +23,10 @@ namespace SuperTrunfo
         public Boolean                  isMaster;
 
         private WebSocketService        socket;
+
+        public Room                     currentRoom;
+
+        private DataSourceStrategy<Card> cardStrategy;
 
         public  Dictionary<Card, Player>cardsOnTable        = new Dictionary<Card, Player>();
 
@@ -37,23 +41,25 @@ namespace SuperTrunfo
         public TurnService() {
 
             socket = Container.get<WebSocketService>();
+            cardStrategy = Container.get<DataSourceStrategy<Card>>();
+
         }
 
         public Player nextPlayer{
             get {
-                return players.IndexOf(currentPlayer) == players.Count - 1 ? players[0] : players[players.IndexOf(currentPlayer)+1]; 
+                return currentRoom.players.IndexOf(currentPlayer) == currentRoom.players.Count - 1 ? currentRoom.players[0] : currentRoom.players[currentRoom.players.IndexOf(currentPlayer)+1]; 
             }
         }
 
-        public void addPlayer(Player player) { 
-            if(players.Count == MAX_PLAYERS){
+        public void addPlayer(Player player) {
+            if(currentRoom.players.Count == MAX_PLAYERS){
                 throw new InvalidOperationException("Max players on turn already reached.\nWhat's That?");
             }
-            if(players.Contains(player)){
+            if(currentRoom.players.Contains(player)){
                 throw new InvalidOperationException("Player already playing.\nWhat's That?");
             }
 
-            players.Add(player);
+            currentRoom.players.Add(player);
 
         }
 
@@ -61,12 +67,40 @@ namespace SuperTrunfo
             if(GameState.NOT_STARTED != gameState){
                 throw new InvalidOperationException("Already started the game.\nWhat's That?");
             } 
-            if(players.Count < MIN_PLAYERS){
+            if(currentRoom.players.Count < MIN_PLAYERS){
                 throw new InvalidOperationException("Not enough players on turn.\nWhat's That?");
             }
 
             gameState = GameState.PLAYING;
 
+            deck = cardStrategy.getAll();
+
+            cardsToPlayers();
+
+            currentPlayer = currentRoom.players[0];
+
+        }
+
+        private void cardsToPlayers(){
+
+            currentRoom.players.ForEach((player) => {
+                player.cards.Add(nextCard());
+                player.cards.Add(nextCard());
+                player.cards.Add(nextCard());
+                player.cards.Add(nextCard());
+                player.cards.Add(nextCard());
+            });
+
+        }
+
+        public Card nextCard() { 
+            Random ramdom = new Random();
+
+            var card = deck[ramdom.Next(0, deck.Count)];
+
+            deck.Remove(card);
+
+            return card; 
         }
 
         public void play(Play play){
