@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{D1C8F000-0C6A-BF91-5BEB-B3B641955CDF}</ProjectGuid>
+	<ProjectGuid>{5507FD8D-DBD7-0E5D-9316-36DB39264740}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,36 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scroll\GUITouchScroll\GUITouchScroll.cs" />
-     <Compile Include="Assets\Sources\Controller\Bootstrap.cs" />
-     <Compile Include="Assets\Sources\Controller\GamePlayController.cs" />
-     <Compile Include="Assets\Sources\Controller\GameStartController.cs" />
-     <Compile Include="Assets\Sources\Controller\NPCController.cs" />
-     <Compile Include="Assets\Sources\Controller\PlayLocalController.cs" />
-     <Compile Include="Assets\Sources\Datasource\DataSource.cs" />
-     <Compile Include="Assets\Sources\Datasource\FileDataSource.cs" />
-     <Compile Include="Assets\Sources\Entity\Card.cs" />
-     <Compile Include="Assets\Sources\Entity\Message.cs" />
-     <Compile Include="Assets\Sources\Entity\Play.cs" />
-     <Compile Include="Assets\Sources\Entity\Player.cs" />
-     <Compile Include="Assets\Sources\Entity\PlayerType.cs" />
-     <Compile Include="Assets\Sources\Entity\Property.cs" />
-     <Compile Include="Assets\Sources\Entity\Room.cs" />
-     <Compile Include="Assets\Sources\Main.cs" />
-     <Compile Include="Assets\Sources\Observer\Events.cs" />
-     <Compile Include="Assets\Sources\Observer\GameObserver.cs" />
-     <Compile Include="Assets\Sources\Service\Configuration.cs" />
-     <Compile Include="Assets\Sources\Service\Container.cs" />
-     <Compile Include="Assets\Sources\Service\GameState.cs" />
-     <Compile Include="Assets\Sources\Service\LocalPlayerService.cs" />
-     <Compile Include="Assets\Sources\Service\NPCPlayerService.cs" />
-     <Compile Include="Assets\Sources\Service\OnlinePlayerService.cs" />
-     <Compile Include="Assets\Sources\Service\PlayerService.cs" />
-     <Compile Include="Assets\Sources\Service\TimeoutService.cs" />
-     <Compile Include="Assets\Sources\Service\TurnService.cs" />
-     <Compile Include="Assets\Sources\Service\WebSocketService.cs" />
-     <Compile Include="Assets\Sources\Strategy\DataSourceStrategy.cs" />
-     <Compile Include="Assets\Sources\Strategy\Strategy.cs" />
+     <Compile Include="Assets\Scroll\GUITouchScroll\GUITouchScrollJS.js" />
  <Reference Include="Newtonsoft.Json.Compact">
  <HintPath>Assets\Plugins\Newtonsoft.Json.Compact.dll</HintPath>
  </Reference>

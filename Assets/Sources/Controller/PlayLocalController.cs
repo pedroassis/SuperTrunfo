@@ -2,6 +2,7 @@
 using System.Collections;
 using SuperTrunfo;
 
+[ExecuteInEditMode] 
 public class PlayLocalController : MonoBehaviour {
 
     private GameObserver    gameObserver;

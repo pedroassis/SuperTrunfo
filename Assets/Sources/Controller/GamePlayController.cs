@@ -21,11 +21,15 @@ namespace SuperTrunfo
 
             gameObserver.addListener("GUI.CardClick", (cardObject) => {
 
-                if(){
-                
+                Card card = cardObject as Card;
+
+                if(turnService.currentPlayer != localPlayer){
+                    // 
+                    UnityEngine.Debug.Log("Clicked in " + card.id + " but not your turn");
+                    return;
                 }
 
-                Card card = cardObject as Card;
+                turnService.play(card, localPlayer);
 
                 UnityEngine.Debug.Log("Clicked in " + card.id);
             });
