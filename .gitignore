@@ -161,4 +161,6 @@ Library/
 
 Server/node_modules/
 Server/supertrunfo/.git/
+Server/supertrunfo/.openshift/
+Server/supertrunfo/node_modules/
 
