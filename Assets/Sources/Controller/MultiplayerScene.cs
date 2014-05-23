@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SuperTrunfo;
 
 [ExecuteInEditMode] 
 public class MultiplayerScene : MonoBehaviour {
@@ -9,7 +10,15 @@ public class MultiplayerScene : MonoBehaviour {
     public string userInput = "";
     private string userInput2 = "";
 
-    void OnGUI()    {
+    private WebSocketService webSocketService = Container.get<WebSocketService>();
+
+    public MultiplayerScene() {
+
+
+        webSocketService.open();
+    }
+
+    void OnGUI(){
 
         float width = Screen.height;
 

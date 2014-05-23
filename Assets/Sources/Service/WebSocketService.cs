@@ -27,15 +27,22 @@ namespace SuperTrunfo
             webSocket.OnMessage += (sender, message) => {
                 var messageObject = JsonConvert.DeserializeObject<Message<Object>>(message.Data);
 
-                var d1 = typeof(Message<>);
+                try
+                {
+                    var d1 = typeof(Message<>);
 
-                Type[] typeArgs = { Type.GetType(messageObject.className) };
+                    Type[] typeArgs = { Type.GetType(messageObject.className) };
 
-                var typeBuilt = d1.MakeGenericType(typeArgs);
+                    var typeBuilt = d1.MakeGenericType(typeArgs);
 
-                var messageEvent = JsonConvert.DeserializeObject(message.Data, typeBuilt);
+                    var messageEvent = JsonConvert.DeserializeObject(message.Data, typeBuilt);
 
-                gameObserver.trigger(messageObject.name, messageEvent);
+                    gameObserver.trigger(messageObject.name, messageEvent);                    
+
+                }
+                catch (Exception e) {
+                    UnityEngine.Debug.Log(e.StackTrace);
+                }
             };
 
             webSocket.Connect();

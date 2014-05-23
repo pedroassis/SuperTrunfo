@@ -12,11 +12,11 @@ public class GameStartController : MonoBehaviour {
 
     private NPCPlayerService NPCPlayer = Container.get<NPCPlayerService>();
 
+    private OnlinePlayerService onlinePlayer = Container.get<OnlinePlayerService>();
+
     private WebSocketService webSocketService = Container.get<WebSocketService>();
 
 	void Start () {
-
-        webSocketService.open();
 
         gameObserver.addListener("GUI.SinglePlayer", (message) => {
             Debug.Log("Play local");
@@ -39,20 +39,30 @@ public class GameStartController : MonoBehaviour {
         });
 
         gameObserver.addListener("GUI.CreateRoom", (message) => {
-            Debug.Log("CreateRoom");
 
             GameObject game = GameObject.Find("Multiplayer");
-            Debug.Log("CreateRoom2");
+
             webSocketService.onMessage("roomAdded", (roomMessage) => {
 
             });
-            Debug.Log("CreateRoom3");
+
+            turnService.isMaster = true;
+
             MultiplayerScene scene = game.GetComponent<MultiplayerScene>() as MultiplayerScene;
-            Debug.Log("CreateRoom4");
+
+            Debug.Log("CreateRoom");
             if (scene.userInput.Length > 0) {
-                webSocketService.sendMessage<Room>(new Message<Room>("createRoom", new Room("fghg425", scene.userInput, new List<Player>()), "SuperTrunfo.Room"));
-            }
-            
+                List<Player> players = new List<Player>();
+
+                players.Add(onlinePlayer.createPlayer());
+                Room room = new Room(System.Guid.NewGuid().ToString(), scene.userInput, players);
+
+                turnService.currentRoom = room;
+
+                webSocketService.sendMessage<Room>(new Message<Room>("createRoom", room, "SuperTrunfo.Room"));
+
+                Application.LoadLevel("WaitRoom");
+            }            
 
         });
 

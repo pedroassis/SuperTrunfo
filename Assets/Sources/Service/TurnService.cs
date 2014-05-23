@@ -129,7 +129,7 @@ namespace SuperTrunfo
                 gameObserver.trigger(Events.TRUMPH_ON_GAME, player);
             }
 
-            if (isMaster && player.playerType == PlayerType.NPC) {
+            if (isMaster || player.playerType == PlayerType.NPC) {
                 socket.sendMessage<Player>(new Message<Player>(
                     "Play",
                     player,
@@ -138,6 +138,8 @@ namespace SuperTrunfo
             }
 
             cardsOnTable[chosenCard] = currentPlayer;
+
+            currentPlayer.cards.Remove(chosenCard);
 
             currentPlayer = nextPlayer;
 

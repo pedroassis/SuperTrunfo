@@ -47,7 +47,8 @@ namespace SuperTrunfo
 		}
 		
 		public void trigger(Object evento, Object message){
-            
+            UnityEngine.Debug.Log(evento);
+            UnityEngine.Debug.Log(customListeners.ContainsKey(evento));
 			if(customListeners.ContainsKey(evento)){
 				customListeners[evento].ForEach(delegate(Action<Object> listener){
                     try

@@ -16,6 +16,7 @@ namespace SuperTrunfo
         public PlayerType  playerType;
 
         public Player(String id, List<Card> cards, Card currentCard, PlayerType playerType) {
+            this.id = id;
             this.cards = cards;
             this.currentCard = currentCard;
             this.playerType = playerType;

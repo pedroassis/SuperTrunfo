@@ -41,7 +41,7 @@ namespace SuperTrunfo
 
             localPlayer = turnService.currentPlayer;
 
-            turnService.currentRoom.players.ForEach((player) => player.cards.ForEach((card) => {
+            localPlayer.cards.ForEach((card) => {
 
                 var cardObject = Instantiate(cardPrefab) as GameObject;
 
@@ -59,7 +59,7 @@ namespace SuperTrunfo
 
                 cardObject.transform.position = new Vector3(x, cardObject.transform.position.y, cardObject.transform.position.z);
               
-            }));
+            });
 
             
 

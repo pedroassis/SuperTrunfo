@@ -34,9 +34,12 @@ public class GUITouchScroll : MonoBehaviour {
 
     private GameObserver gameObserver           = Container.get<GameObserver>();
 
-    private WebSocketService webSocketService   = Container.get<WebSocketService>();
+    private WebSocketService webSocketService = Container.get<WebSocketService>();
+
+    private OnlinePlayerService onlinePlayer = Container.get<OnlinePlayerService>();
 
     public GUITouchScroll() {
+
         gameObserver.addListener("roomAdded", (roomMessage) => {
 
             var room = roomMessage as Message<Room>;
@@ -46,11 +49,18 @@ public class GUITouchScroll : MonoBehaviour {
             rooms.Add(room.message);
         });
 
-        webSocketService.sendMessage<object>(new Message<object>(
-                "getRooms",
-                null,
-                ""
-        ));
+        gameObserver.addListener("rooms", (roomMessage) => {
+
+            var room = roomMessage as Message<Room[]>;
+
+            rooms.Clear();
+
+            rooms.AddRange(room.message);
+
+            UnityEngine.Debug.Log(room.message.Length);
+
+            UnityEngine.Debug.Log(rooms.Count);
+        });
 
     }
 
@@ -163,9 +173,11 @@ public class GUITouchScroll : MonoBehaviour {
                 }
 
                 // Allow mouse selection, if not running on iPhone.
-                if (fClicked && Application.platform != RuntimePlatform.IPhonePlayer)
-                {
+                if (fClicked && Application.platform != RuntimePlatform.IPhonePlayer){
                     Debug.Log("Player mouse-clicked on row " + room.name);
+
+                    webSocketService.sendMessage<JoinRoom>(new Message<JoinRoom>("joinRoom", new JoinRoom(onlinePlayer.createPlayer(), room), "SuperTrunfo.JoinRoom"));
+
                 }
             }
 
