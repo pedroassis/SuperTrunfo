@@ -13,7 +13,7 @@ public class PlayLocalController : MonoBehaviour {
     public Texture activeTex;
     public Texture inactiveTex;
 
-    public float widthPercent;
+    public float widthPercent = 0.2F;
 
     public PlayLocalController() {
         Configuration.configure();

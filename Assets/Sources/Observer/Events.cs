@@ -14,6 +14,8 @@ namespace SuperTrunfo
         CARD_TO_TABLE,
         NPC_TURN,
         TRUMPH_ON_GAME,
+        SELECT_PROPERTY,
+        TURNS_FIRST_PLAYER,
 
         FINISH_LEVEL,
         START_LOCAL_GAME,

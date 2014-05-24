@@ -80,24 +80,24 @@ namespace SuperTrunfo
 
         public void removeListeners(Object context) { 
 
-            if(contextBinder.ContainsKey(context)){
-                contextBinder[context].ForEach((listener) => {
+            if(contextBinder.ContainsKey(context.GetHashCode())){
+                contextBinder[context.GetHashCode()].ForEach((listener) => {
                     foreach(Object key in customListeners.Keys){
                         if (customListeners[key].Contains(listener)) {
                             customListeners[key].Remove(listener);
                         }
                     }
                 });
-                contextBinder.Remove(context);
+                contextBinder.Remove(context.GetHashCode());
             }
         }
 
         private void addBinder(Object context, Action<Object> listener) {
             
-			if(!contextBinder.ContainsKey(context)){
-                contextBinder[context] = new List<Action<Object>>();
+			if(!contextBinder.ContainsKey(context.GetHashCode())){
+                contextBinder[context.GetHashCode()] = new List<Action<Object>>();
 			}
-            contextBinder[context].Add(listener);
+            contextBinder[context.GetHashCode()].Add(listener);
         }
 
         private Dictionary<Events, List<Action<Object>>> listeners = new Dictionary<Events, List<Action<Object>>>();

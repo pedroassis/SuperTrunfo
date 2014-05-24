@@ -183,6 +183,7 @@ namespace SuperTrunfo
         public void selectProperty(Property property, Player player) {
             if (player == currentPlayer && property != Property.NONE) {
                 currentProperty = property;
+                gameObserver.trigger(Events.SELECT_PROPERTY, property);
             }
             else {
                 throw new InvalidOperationException("Invalid player or property already assined or both.");

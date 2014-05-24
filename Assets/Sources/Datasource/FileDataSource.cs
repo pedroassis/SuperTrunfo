@@ -140,6 +140,7 @@ namespace SuperTrunfo
             FieldInfo[] fields = type.GetFields();
          
             foreach(FieldInfo field in fields){
+                UnityEngine.Debug.Log(field.Name);
                 props.Add(field.Name);
             }
             return props;
