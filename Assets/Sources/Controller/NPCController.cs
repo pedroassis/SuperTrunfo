@@ -26,9 +26,22 @@ public class NPCController : MonoBehaviour {
 
                 npcService.play(player);
             }
-        });
+        }, this);
+
+        gameObserver.addListener(Events.TURN_WINNER, (playerMessage) => {
+            Player player = playerMessage as Player;
+
+            if (player.playerType == PlayerType.NPC) {
+
+                npcService.play(player);
+            }
+        }, this);
 
 	}
+    public void OnDestroy () {
+        Debug.Log(this.GetType().Name + " was destroyed");
+
+        gameObserver.removeListeners(this);
+	}
 	
-	// Update is called once per frame
 }

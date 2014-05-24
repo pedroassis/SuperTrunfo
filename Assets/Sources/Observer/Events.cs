@@ -11,6 +11,7 @@ namespace SuperTrunfo
         TURN_WINNER,
         NEXT_PLAYERS_TURN,
         LOCAL_PLAYERS_TURN,
+        CARD_TO_TABLE,
         NPC_TURN,
         TRUMPH_ON_GAME,
 

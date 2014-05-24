@@ -60,7 +60,7 @@ namespace SuperTrunfo
             Console.WriteLine(strategy.getById("A2").id);
             Console.WriteLine(strategy.getById("A2").name);
             Console.WriteLine(strategy.getById("A2").hability);
-            Console.WriteLine(strategy.getById("A2").force);
+            Console.WriteLine(strategy.getById("A2").power);
             Console.WriteLine(strategy.getById("A2").velocity);
             Console.WriteLine(strategy.getById("A2").equipment);
             Console.WriteLine(strategy.getById("A2").inteligence);

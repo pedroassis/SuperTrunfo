@@ -21,22 +21,22 @@ public class GameStartController : MonoBehaviour {
         gameObserver.addListener("GUI.SinglePlayer", (message) => {
             Debug.Log("Play local");
             Application.LoadLevel("MainSingle");
-        });
+        }, this);
 
         gameObserver.addListener("GUI.MainMenu", (message) => {
             Debug.Log("MainMenu");
             Application.LoadLevel("MainMenu");
-        });
+        }, this);
 
         gameObserver.addListener("GUI.Multiplayer", (message) => {
             Debug.Log("Multiplayer");
             Application.LoadLevel("MainMultiplayer");
-        });
+        }, this);
 
         gameObserver.addListener("GUI.Quit", (message) => {
             Debug.Log("Quit");
             Application.Quit();
-        });
+        }, this);
 
         gameObserver.addListener("GUI.CreateRoom", (message) => {
 
@@ -62,9 +62,9 @@ public class GameStartController : MonoBehaviour {
                 webSocketService.sendMessage<Room>(new Message<Room>("createRoom", room, "SuperTrunfo.Room"));
 
                 Application.LoadLevel("WaitRoom");
-            }            
+            }
 
-        });
+        }, this);
 
         gameObserver.addListener("GUI.NPCOne", (message) => {
 
@@ -79,7 +79,7 @@ public class GameStartController : MonoBehaviour {
             turnService.startGame();
 
             Application.LoadLevel("GamePlay");
-        });
+        }, this);
 
         gameObserver.addListener("GUI.NPCTwo", (message) => {
 
@@ -90,7 +90,7 @@ public class GameStartController : MonoBehaviour {
             turnService.addPlayer(NPCPlayer.createPlayer());
 
             Application.LoadLevel("GamePlay");
-        });
+        }, this);
 
         gameObserver.addListener("GUI.NPCThree", (message) => {
 
@@ -103,7 +103,12 @@ public class GameStartController : MonoBehaviour {
             turnService.addPlayer(NPCPlayer.createPlayer());
 
             Application.LoadLevel("GamePlay");
-        });
+        }, this);
 
+	}
+    public void OnDestroy () {
+        Debug.Log(this.GetType().Name + " was destroyed");
+
+        gameObserver.removeListeners(this);
 	}
 }

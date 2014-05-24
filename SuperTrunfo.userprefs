@@ -2,16 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Sources\Service\TurnService.cs">
     <Files>
-      <File FileName="Assets\Sources\Service\TurnService.cs" Line="107" Column="4" />
-      <File FileName="Assets\Sources\Controller\PlayLocalController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sources\Service\Container.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sources\Service\Configuration.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sources\Controller\Bootstrap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sources\Service\NPCPlayerService.cs" Line="1" Column="1" />
+      <File FileName="Assets\Sources\Controller\GamePlayController.cs" Line="35" Column="5" />
+      <File FileName="Assets\Sources\Service\TurnService.cs" Line="116" Column="56" />
+      <File FileName="Assets\Sources\Observer\Events.cs" Line="14" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Assets\Sources\Service\TurnService.cs" line="117" offsetX="73" offsetY="1972" expression="chosenCard" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

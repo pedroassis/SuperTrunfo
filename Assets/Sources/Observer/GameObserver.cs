@@ -16,12 +16,27 @@ namespace SuperTrunfo
 			}
 			listeners[evento].Add(listener);
 		}
+		public void addListener(Events evento, Action<Object> listener, Object context){
+			if(!listeners.ContainsKey(evento)){
+				listeners[evento] = new List<Action<Object>>();
+			}
+            listeners[evento].Add(listener);
+            addBinder(context, listener);
+		}
 		
 		public void addListener(Object evento, Action<Object> listener){
 			if(!customListeners.ContainsKey(evento)){
                 customListeners[evento] = new List<Action<Object>>();
 			}
             customListeners[evento].Add(listener);
+		}
+		
+		public void addListener(Object evento, Action<Object> listener, Object context){
+			if(!customListeners.ContainsKey(evento)){
+                customListeners[evento] = new List<Action<Object>>();
+			}
+            customListeners[evento].Add(listener);
+            addBinder(context, listener);
 		}
 		
 		public void removeListener(Events evento, Action<Object> listener){
@@ -63,9 +78,35 @@ namespace SuperTrunfo
 			}
 		}
 
+        public void removeListeners(Object context) { 
+
+            if(contextBinder.ContainsKey(context)){
+                contextBinder[context].ForEach((listener) => {
+                    foreach(Object key in customListeners.Keys){
+                        if (customListeners[key].Contains(listener)) {
+                            customListeners[key].Remove(listener);
+                        }
+                    }
+                });
+                contextBinder.Remove(context);
+            }
+        }
+
+        private void addBinder(Object context, Action<Object> listener) {
+            
+			if(!contextBinder.ContainsKey(context)){
+                contextBinder[context] = new List<Action<Object>>();
+			}
+            contextBinder[context].Add(listener);
+        }
+
         private Dictionary<Events, List<Action<Object>>> listeners = new Dictionary<Events, List<Action<Object>>>();
 
         private Dictionary<Object, List<Action<Object>>> customListeners = new Dictionary<Object, List<Action<Object>>>();
+
+        private Dictionary<Object, List<Action<Object>>> contextBinder = new Dictionary<Object, List<Action<Object>>>();
+
+
 	}
 }
 

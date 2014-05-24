@@ -32,7 +32,7 @@ public class PlayLocalController : MonoBehaviour {
                 Debug.Log("GUI." + eventName);
                 gameObserver.trigger("GUI." + eventName, eventMessage);
 
-            }, 250);
+            }, 150);
 		}
 	}
 

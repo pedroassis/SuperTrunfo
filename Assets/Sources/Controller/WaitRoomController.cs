@@ -16,7 +16,7 @@ public class WaitRoomController : MonoBehaviour {
 
         gameObserver.addListener("roomCreated", (message) => {
 
-        });
+        }, this);
 
         gameObserver.addListener("playerAdded", (playerMessage) =>{
 
@@ -25,11 +25,17 @@ public class WaitRoomController : MonoBehaviour {
             turnService.addPlayer(player);
 
             isEnabled = true;
-        });
+        }, this);
 	}
 
     void Update() {
         playButton.enabled = isEnabled;
     }
+
+    public void OnDestroy () {
+        Debug.Log(this.GetType().Name + " was destroyed");
+
+        gameObserver.removeListeners(this);
+	}
 
 }

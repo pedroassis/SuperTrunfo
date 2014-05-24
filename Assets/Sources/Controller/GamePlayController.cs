@@ -30,18 +30,40 @@ namespace SuperTrunfo
                 }
 
                 turnService.play(card, localPlayer);
+				
+				showCards();
 
                 UnityEngine.Debug.Log("Clicked in " + card.id);
-            });
+
+            }, this);
             
         }
 
         public void Awake() {
+
+            showCards();
+
+        }
+
+        public void OnDestroy () {
+            Debug.Log(this.GetType().Name + " was destroyed");
+
+            gameObserver.removeListeners(this);
+	    }
+		
+		private void showCards(){
+			
             var cardPrefab = Resources.Load("Card");
 
             localPlayer = turnService.currentPlayer;
+			
+			GameObject[] cardsGame = GameObject.FindGameObjectsWithTag("Card");
+			
+			foreach(var card in cardsGame){
+				Destroy(card);
+			}
 
-            localPlayer.cards.ForEach((card) => {
+            localPlayer.cards.TrueForAll((card) => {
 
                 var cardObject = Instantiate(cardPrefab) as GameObject;
 
@@ -54,15 +76,16 @@ namespace SuperTrunfo
                 cardCtrl.eventMessage = card;
 
                 cardObject.guiTexture.texture = cardCtrl.inactiveTex;
+				
+				var index = turnService.currentPlayer.cards.IndexOf(card);
 
-                var x = 0.1F + turnService.currentPlayer.cards.IndexOf(card) * 0.2F;
+                var x = 0.1F + index * 0.2F;
 
                 cardObject.transform.position = new Vector3(x, cardObject.transform.position.y, cardObject.transform.position.z);
-              
+              	
+				return index < 6;
+				
             });
-
-            
-
-        }
+		}
     }
 }

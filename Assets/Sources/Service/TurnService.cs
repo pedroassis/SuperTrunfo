@@ -78,6 +78,8 @@ namespace SuperTrunfo
             cardsToPlayers();
 
             currentPlayer = currentRoom.players[0];
+			
+			currentProperty = Property.NONE;
 
         }
 
@@ -124,6 +126,8 @@ namespace SuperTrunfo
             if (cardsOnTable.Values.Contains(currentPlayer)) {
                 throw new InvalidOperationException("Current Player already chose his card for this turn.\nWhat's That?");
             }
+			
+			gameObserver.trigger(Events.CARD_TO_TABLE, new Play(player, chosenCard));
 
             if (isTrumph(chosenCard)) {
                 gameObserver.trigger(Events.TRUMPH_ON_GAME, player);
@@ -143,13 +147,13 @@ namespace SuperTrunfo
 
             currentPlayer = nextPlayer;
 
-            gameObserver.trigger(Events.NEXT_PLAYERS_TURN, currentPlayer);
-
             currentHand++;
 
-            if(currentHand > 4){
+            if(currentHand > currentRoom.players.Count){
                 endTurn();
-            }
+            } else {
+            	gameObserver.trigger(Events.NEXT_PLAYERS_TURN, currentPlayer);
+			}
 
         }
 
@@ -161,19 +165,15 @@ namespace SuperTrunfo
 
             Player turnWinner = cardsOnTable[winner];
 
-            cards.Remove(winner);
-
             turnWinner.cards.AddRange(cards);
-
-            cards.ForEach((card) => {
-                cardsOnTable[card].cards.Remove(card);
-            });
 
             currentPlayer = turnWinner;
 
-            currentHand = 0;
+            currentHand = 1;
 
             currentProperty = Property.NONE;
+			
+			cardsOnTable.Clear();
 
             gameObserver.trigger(Events.TURN_WINNER, turnWinner);
 
@@ -181,7 +181,7 @@ namespace SuperTrunfo
         }
 
         public void selectProperty(Property property, Player player) {
-            if (player == currentPlayer && currentProperty == Property.NONE) {
+            if (player == currentPlayer && property != Property.NONE) {
                 currentProperty = property;
             }
             else {
