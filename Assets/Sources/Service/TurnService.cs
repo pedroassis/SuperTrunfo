@@ -37,6 +37,8 @@ namespace SuperTrunfo
         private static readonly int     MIN_PLAYERS         = 2;
 
         private static readonly String[]HEADS              = new String[] {    "B1", "C1", "D1", "E1"    };
+		
+		private List<Card> cardsIdle = new List<Card>();
 
         public TurnService() {
 
@@ -85,12 +87,14 @@ namespace SuperTrunfo
 
         private void cardsToPlayers(){
 
+            int count = (int) Math.Floor((float) (deck.Count / currentRoom.players.Count));
+
             currentRoom.players.ForEach((player) => {
-                player.cards.Add(nextCard());
-                player.cards.Add(nextCard());
-                player.cards.Add(nextCard());
-                player.cards.Add(nextCard());
-                player.cards.Add(nextCard());
+                int i = 0;
+                while (i < count) {
+                    player.cards.Add(nextCard());
+                    i++;
+                }
             });
 
         }
@@ -122,7 +126,7 @@ namespace SuperTrunfo
             if (currentPlayer.cards.IndexOf(chosenCard) == -1){
                 throw new InvalidOperationException("Current Player does not have that card.\nWhat's That?");
             }
-
+			
             if (cardsOnTable.Values.Contains(currentPlayer)) {
                 throw new InvalidOperationException("Current Player already chose his card for this turn.\nWhat's That?");
             }
@@ -163,19 +167,37 @@ namespace SuperTrunfo
 
             Card winner = getBiggest(cards, currentProperty);
 
-            Player turnWinner = cardsOnTable[winner];
-
-            turnWinner.cards.AddRange(cards);
-
-            currentPlayer = turnWinner;
-
             currentHand = 1;
 
             currentProperty = Property.NONE;
-			
-			cardsOnTable.Clear();
 
-            gameObserver.trigger(Events.TURN_WINNER, turnWinner);
+            if (winner == null) {
+				
+				cardsIdle.AddRange(cardsOnTable.Keys);
+
+                cardsOnTable.Clear();
+				
+                Random r = new Random();
+                currentPlayer = currentRoom.players[r.Next(0, currentRoom.players.Count)];
+                gameObserver.trigger(Events.NEXT_PLAYERS_TURN, currentPlayer);
+                
+				
+            } else {
+
+                Player turnWinner = cardsOnTable[winner];
+
+                turnWinner.cards.InsertRange(0, cards);
+
+                turnWinner.cards.InsertRange(0, cardsIdle);
+
+                currentPlayer = turnWinner;
+
+                cardsOnTable.Clear();
+				cardsIdle.Clear();
+
+                gameObserver.trigger(Events.TURN_WINNER, turnWinner);
+				
+            }
 
             gameObserver.trigger(Events.END_TURN   , this);
         }
@@ -193,18 +215,28 @@ namespace SuperTrunfo
         public Card getBiggest(List<Card> cards, Property selectedProp) {
             FieldInfo field = typeof(Card).GetField(selectedProp.ToString().ToLower());
 
+            int card1Value = 0;
+            int card2Value = 0;
+
             Func<Card, Card, Card> testBigger = (card1, card2) => {
-                return ((int) field.GetValue(card1)) > ((int) field.GetValue(card2)) ? card1 : card2;
+                return card1Value > card2Value ? card1 : card2;
             };
 
             return cards.Aggregate((card1, card2) => {
 
+                if(card1 == null || card2 == null){
+                    return card1 == null ? card2 : card1;
+                }
+
+                card1Value = (int) field.GetValue(card1);
+                card2Value = (int) field.GetValue(card2);
+
                 if (isTrumph(card1) && isHead(card2) || isTrumph(card2) && isHead(card1)
-                    || !isTrumph(card1) && !isTrumph(card2)) {
+                    || !isTrumph(card1) && !isTrumph(card2) && card1Value != card2Value) {
                         return testBigger(card1, card2);
                 }
 
-                return isTrumph(card1) ? card1 : card2;
+                return card1Value == card2Value ? null : isTrumph(card1) ? card1 : isTrumph(card2) ? card2 : null;
             });
         }
 

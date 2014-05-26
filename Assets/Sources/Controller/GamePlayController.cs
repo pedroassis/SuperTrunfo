@@ -23,7 +23,7 @@ namespace SuperTrunfo
 
                 Card card = cardObject as Card;
 
-                if(turnService.currentPlayer != localPlayer){
+                if(turnService.currentPlayer != localPlayer || turnService.currentProperty == Property.NONE){
                     // 
                     UnityEngine.Debug.Log("Clicked in " + card.id + " but not your turn");
                     return;
@@ -32,8 +32,6 @@ namespace SuperTrunfo
                 turnService.play(card, localPlayer);
 
                 showCards();
-
-                UnityEngine.Debug.Log("Clicked in " + card.id);
 
             }, this);
 
@@ -44,11 +42,16 @@ namespace SuperTrunfo
                 }
             });
 
-            gameObserver.addListener(Events.SELECT_PROPERTY, (property) => {
+            gameObserver.addListener(Events.NEXT_PLAYERS_TURN, (playerMessage) => {
                 
-                if(turnService.currentPlayer == localPlayer){
-                    setProperty((Property) property);
+                if(playerMessage.Equals(localPlayer)){
+                    showMenu();
                 }
+            });
+
+            gameObserver.addListener(Events.SELECT_PROPERTY, (property) => {
+				
+				showMenu();
             });
 
             //showMenu();
@@ -72,23 +75,25 @@ namespace SuperTrunfo
         private void setProperty(Property property){
             if(localPlayer == turnService.currentPlayer && turnService.currentProperty == Property.NONE){
                 turnService.selectProperty(property, localPlayer);
-
-                GameObject[] buttons = GameObject.FindGameObjectsWithTag("Sidebar");
-
-                foreach(GameObject button in buttons){
-                    if (!button.name.ToLower().Contains(turnService.currentProperty.ToString().ToLower()))
-                        button.GetComponent<GUITexture>().enabled = false;
-                }
             }
         }
 
         private void showMenu() {
 
-            GameObject[] buttons = GameObject.FindGameObjectsWithTag("Sidebar");
-
-            foreach(GameObject button in buttons){
-                button.GetComponent<GUITexture>().enabled = true;
-            }
+            try {
+	                GameObject[] buttons = GameObject.FindGameObjectsWithTag("Sidebar");
+	
+	                foreach(GameObject button in buttons){
+	                    if (!button.name.ToLower().Contains(turnService.currentProperty.ToString().ToLower())
+								&& turnService.currentProperty != Property.NONE) { 
+	                        button.GetComponent<GUITexture>().enabled = false;
+	                    } else {
+	
+	                        button.GetComponent<GUITexture>().enabled = true;
+	
+	                    }
+	               }
+				} catch(Exception e){}
         }
 
         private void bindPropertyListeners(){        
@@ -138,45 +143,39 @@ namespace SuperTrunfo
 				Destroy(card);
 			}
 
-            localPlayer.cards.TrueForAll((card) => {
+            Card cardOnTop = localPlayer.cards[localPlayer.cards.Count -1];
 
-                var cardObject = Instantiate(cardPrefab) as GameObject;
+            var cardObject = Instantiate(cardPrefab) as GameObject;
 
-                PlayLocalController cardCtrl = (PlayLocalController)cardObject.GetComponent<PlayLocalController>();
+            PlayLocalController cardCtrl = (PlayLocalController)cardObject.GetComponent<PlayLocalController>();
 
-                cardCtrl.inactiveTex = (Texture2D) Resources.Load(String.Format("Images/Card/{0}/{1}", card.id[0], card.id));
+            cardCtrl.inactiveTex = (Texture2D) Resources.Load(String.Format("Images/Card/{0}/{1}",cardOnTop.id[0],cardOnTop.id));
 
-                cardCtrl.activeTex = (Texture2D) Resources.Load(String.Format("Images/Card/{0}/{1}", card.id[0], card.id));
+            cardCtrl.activeTex = (Texture2D) Resources.Load(String.Format("Images/Card/{0}/{1}", cardOnTop.id[0], cardOnTop.id));
 
-                cardCtrl.eventMessage = card;
+            cardCtrl.eventMessage = cardOnTop;
+
+            cardObject.guiTexture.texture = cardCtrl.inactiveTex;
+				
+			var index = turnService.currentPlayer.cards.IndexOf(cardOnTop);
+
+            cardObject.transform.position = new Vector3(0.1F, cardObject.transform.position.y, cardObject.transform.position.z);
+
+            turnService.cardsOnTable.Keys.ToList().TrueForAll((cardOnTable) => {
+
+                cardObject = Instantiate(cardOnTablePrefab) as GameObject;
+
+                cardCtrl = (PlayLocalController)cardObject.GetComponent<PlayLocalController>();
+
+                cardCtrl.inactiveTex = (Texture2D)Resources.Load(String.Format("Images/Card/{0}/{1}", cardOnTable.id[0], cardOnTable.id));
+
+                cardCtrl.activeTex = (Texture2D)Resources.Load(String.Format("Images/Card/{0}/{1}", cardOnTable.id[0], cardOnTable.id));
+
+                cardCtrl.eventMessage = cardOnTable;
 
                 cardObject.guiTexture.texture = cardCtrl.inactiveTex;
-				
-				var index = turnService.currentPlayer.cards.IndexOf(card);
 
-                var x = 0.1F + index * 0.2F;
-
-                cardObject.transform.position = new Vector3(x, cardObject.transform.position.y, cardObject.transform.position.z);
-              	
-				return index < 4;
-				
-            });
-
-            turnService.cardsOnTable.Keys.ToList().TrueForAll((card) => {
-
-                var cardObject = Instantiate(cardOnTablePrefab) as GameObject;
-
-                PlayLocalController cardCtrl = (PlayLocalController)cardObject.GetComponent<PlayLocalController>();
-
-                cardCtrl.inactiveTex = (Texture2D) Resources.Load(String.Format("Images/Card/{0}/{1}", card.id[0], card.id));
-
-                cardCtrl.activeTex = (Texture2D) Resources.Load(String.Format("Images/Card/{0}/{1}", card.id[0], card.id));
-
-                cardCtrl.eventMessage = card;
-
-                cardObject.guiTexture.texture = cardCtrl.inactiveTex;
-				
-				var index = turnService.currentPlayer.cards.IndexOf(card);
+                index = turnService.cardsOnTable.Keys.ToList().IndexOf(cardOnTable);
 
                 var x = 0.1F + index * 0.2F;
 

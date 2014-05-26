@@ -83,17 +83,23 @@ public class GameStartController : MonoBehaviour {
 
         gameObserver.addListener("GUI.NPCTwo", (message) => {
 
+
+            turnService.currentRoom = new Room(System.Guid.NewGuid().ToString(), "LocalPlay", new List<Player>());
             turnService.addPlayer(localPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
+
+            turnService.startGame();
 
             Application.LoadLevel("GamePlay");
         }, this);
 
         gameObserver.addListener("GUI.NPCThree", (message) => {
 
+
+            turnService.currentRoom = new Room(System.Guid.NewGuid().ToString(), "LocalPlay", new List<Player>());
             turnService.addPlayer(localPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
@@ -101,6 +107,15 @@ public class GameStartController : MonoBehaviour {
             turnService.addPlayer(NPCPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
+
+            turnService.startGame();
+
+            Application.LoadLevel("GamePlay");
+        }, this);
+
+        gameObserver.addListener("GUI.StartGame", (message) => {
+
+            turnService.startGame();
 
             Application.LoadLevel("GamePlay");
         }, this);

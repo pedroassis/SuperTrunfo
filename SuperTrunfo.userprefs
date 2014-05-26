@@ -1,16 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Sources\Service\TurnService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Sources\Controller\GamePlayController.cs">
     <Files>
-      <File FileName="Assets\Sources\Controller\GamePlayController.cs" Line="36" Column="2" />
-      <File FileName="Assets\Sources\Service\TurnService.cs" Line="116" Column="56" />
-      <File FileName="Assets\Sources\Observer\Events.cs" Line="1" Column="1" />
+      <File FileName="Assets\Sources\Observer\GameObserver.cs" Line="59" Column="1" />
+      <File FileName="Assets\Sources\Service\TurnService.cs" Line="199" Column="5" />
+      <File FileName="Assets\Sources\Controller\GamePlayController.cs" Line="88" Column="56" />
+      <File FileName="Assets\Sources\Controller\NPCController.cs" Line="28" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="Assets\Sources\Service\TurnService.cs" line="117" offsetX="73" offsetY="1972" expression="chosenCard" liveUpdate="False" />
+    <Watch file="Assets\Sources\Service\TurnService.cs" line="117" offsetX="74" offsetY="1972" expression="chosenCard" liveUpdate="False" />
+    <Watch file="Assets\Sources\Controller\GamePlayController.cs" line="52" offsetX="292" offsetY="816" expression="button" liveUpdate="False" />
+    <Watch file="Assets\Sources\Controller\GamePlayController.cs" line="55" offsetX="68" offsetY="864" expression="button" liveUpdate="False" />
+    <Watch file="Assets\Sources\Controller\GamePlayController.cs" line="55" offsetX="68" offsetY="864" expression="button" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace SuperTrunfo
 {
@@ -33,14 +34,32 @@ namespace SuperTrunfo
         public void play(Player player){
             gameObserver.trigger(Events.NPC_TURN, player);
 
-            Property selectedProperty = turnService.currentProperty == Property.NONE ? getRandomProperty() : turnService.currentProperty;
 
-            Card bestCard = turnService.getBiggest(player.cards, selectedProperty);
+            if (player.cards.Count > 0) {
 
-            turnService.selectProperty(selectedProperty, player);
+                Card bestCard = player.cards[player.cards.Count - 1];
 
-            turnService.play(bestCard, player);
+                Property selectedProperty = turnService.currentProperty == Property.NONE ? getBestProperty(bestCard) : turnService.currentProperty;
+
+                turnService.selectProperty(selectedProperty, player);
+
+                turnService.play(bestCard, player);
+            }
             
+        }
+
+        private Property getBestProperty(Card card) {
+            return properties.Aggregate((prop1, prop2) => {
+
+                FieldInfo field1 = typeof(Card).GetField(prop1.ToString().ToLower());
+                FieldInfo field2 = typeof(Card).GetField(prop2.ToString().ToLower());
+
+                
+                int card1Value = (int) field1.GetValue(card);
+                int card2Value = (int) field2.GetValue(card);
+
+                return card1Value > card2Value ? prop1 : prop2;
+            });
         }
 
 

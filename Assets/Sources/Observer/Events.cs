@@ -16,6 +16,7 @@ namespace SuperTrunfo
         TRUMPH_ON_GAME,
         SELECT_PROPERTY,
         TURNS_FIRST_PLAYER,
+        TURN_DRAW,
 
         FINISH_LEVEL,
         START_LOCAL_GAME,

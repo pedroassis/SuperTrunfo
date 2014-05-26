@@ -19,7 +19,9 @@ namespace SuperTrunfo
         }
 
         public void sendMessage<T>(Message<T> message) {
-            webSocket.Send(JsonConvert.SerializeObject(message));
+			if(webSocket.ReadyState == WebSocketState.Open){
+            	webSocket.Send(JsonConvert.SerializeObject(message));
+			}
         }
 
         public void open() {
