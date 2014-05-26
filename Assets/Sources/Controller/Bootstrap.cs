@@ -5,7 +5,7 @@ using SuperTrunfo;
 public class Bootstrap : MonoBehaviour {
 
     private TimeoutService timeout;
-
+     
 	void Start () {
         DontDestroyOnLoad(this);
 
