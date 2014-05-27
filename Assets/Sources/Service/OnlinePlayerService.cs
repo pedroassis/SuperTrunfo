@@ -18,10 +18,47 @@ namespace SuperTrunfo
             gameObserver    = Container.get<GameObserver>();
             socket          = Container.get<WebSocketService>();
 
-            gameObserver.addListener("Play", (message) => {
-                Play play = (Play) message;
+            gameObserver.addListener("OnPlay", (message) => {
+                Play play = ((Message<Play>) message).message;
+
                 turnService.play(play);
             });
+            
+            gameObserver.addListener(Events.CARD_TO_TABLE, (message) => {
+                Play play = (Play) message;
+                
+                if(play.player.playerType == PlayerType.LOCAL){
+                    socket.sendMessage<Play>(new Message<Play>(
+                        "Play",
+                        play,
+                        play.GetType().FullName
+                    ));
+                }
+                
+            });
+            
+            gameObserver.addListener("giveCards", (message) => {
+                Room room = ((Message<Room>) message).message;
+
+                turnService.currentRoom.players.ForEach((player) => {
+                    var onPlayer = room.players.Find((play) => {
+                        return play.id == player.id;
+                    });
+
+                    player.cards = onPlayer.cards;
+                });
+            });
+            
+            gameObserver.addListener("cardsToPlayers", (message) => {
+                Room room = (Room) message;
+
+                if (turnService.isMaster) {
+                    socket.sendMessage<Room>(new Message<Room>("giveCards", room, room.GetType().FullName));
+                }
+            });
+            
+            
+
         }
 
         public Player createPlayer(){
@@ -29,11 +66,11 @@ namespace SuperTrunfo
         }
 
         public void play(Player player){
-            socket.sendMessage<Player>(new Message<Player>(
-                "OnPlay",
-                player,
-                player.GetType().FullName
-            ));
+            //socket.sendMessage<Player>(new Message<Player>(
+            //    "ShouldPlay",
+            //    player,
+            //    player.GetType().FullName
+            //));
         }
     }
 }

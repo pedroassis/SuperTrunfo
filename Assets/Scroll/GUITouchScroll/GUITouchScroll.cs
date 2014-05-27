@@ -36,7 +36,7 @@ public class GUITouchScroll : MonoBehaviour {
 
     private WebSocketService webSocketService = Container.get<WebSocketService>();
 
-    private OnlinePlayerService onlinePlayer = Container.get<OnlinePlayerService>();
+    private LocalPlayerService onlinePlayer = Container.get<LocalPlayerService>();
 
     public GUITouchScroll() {
 

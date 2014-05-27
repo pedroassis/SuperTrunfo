@@ -33,6 +33,10 @@ namespace SuperTrunfo
 
                 showCards();
 
+                if (turnService.currentPlayer == localPlayer) {
+                    showMenu();
+                }
+
             }, this);
 
             gameObserver.addListener(Events.TURN_WINNER, (playerMessage) => {
@@ -63,6 +67,7 @@ namespace SuperTrunfo
         public void Awake() {
 
             showCards();
+            showMenu();
 
         }
 

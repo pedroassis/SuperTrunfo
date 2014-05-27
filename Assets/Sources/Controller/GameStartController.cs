@@ -70,6 +70,8 @@ public class GameStartController : MonoBehaviour {
 
             Debug.Log("One");
 
+            turnService.isMaster = true;
+
             turnService.currentRoom = new Room(System.Guid.NewGuid().ToString(), "LocalPlay", new List<Player>());
 
             turnService.addPlayer(localPlayer.createPlayer());
@@ -85,6 +87,9 @@ public class GameStartController : MonoBehaviour {
 
 
             turnService.currentRoom = new Room(System.Guid.NewGuid().ToString(), "LocalPlay", new List<Player>());
+
+            turnService.isMaster = true;
+
             turnService.addPlayer(localPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
@@ -100,6 +105,9 @@ public class GameStartController : MonoBehaviour {
 
 
             turnService.currentRoom = new Room(System.Guid.NewGuid().ToString(), "LocalPlay", new List<Player>());
+
+            turnService.isMaster = true;
+
             turnService.addPlayer(localPlayer.createPlayer());
 
             turnService.addPlayer(NPCPlayer.createPlayer());
@@ -118,9 +126,36 @@ public class GameStartController : MonoBehaviour {
             turnService.startGame();
 
             Application.LoadLevel("GamePlay");
+
+        }, this);
+
+        gameObserver.addListener("playerJoined", (roomMessage) =>
+        {
+
+            var room = (roomMessage as Message<Room>).message;
+
+            room.players.ForEach((p) => p.playerType = PlayerType.REMOTE);
+
+            room.players.Add(localPlayer.localPlayer);
+
+            turnService.currentRoom = room;
+
+            turnService.startGame();
+
+            finishedWaiting = true;
+
         }, this);
 
 	}
+
+    private bool finishedWaiting;
+    void Update()
+    {
+        if (finishedWaiting)
+        {
+            Application.LoadLevel("GamePlay");
+        }
+    }
     public void OnDestroy () {
         Debug.Log(this.GetType().Name + " was destroyed");
 

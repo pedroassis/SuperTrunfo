@@ -12,15 +12,21 @@ public class WaitRoomController : MonoBehaviour {
 
     private bool                    isEnabled;
 
+    private bool finishedWaiting;
+
     public WaitRoomController(){
 
-        gameObserver.addListener("roomCreated", (message) => {
+        gameObserver.addListener("gameStarted", (message) => {
+
+            turnService.startGame();
+
+            finishedWaiting = true;
 
         }, this);
 
         gameObserver.addListener("playerAdded", (playerMessage) =>{
 
-            var player = ((Message<Player>)playerMessage).message;
+            var player = ((Message<Player>) playerMessage).message;
 
             turnService.addPlayer(player);
 
@@ -29,7 +35,12 @@ public class WaitRoomController : MonoBehaviour {
 	}
 
     void Update() {
-        playButton.enabled = isEnabled;
+        playButton.enabled = isEnabled && turnService.isMaster;
+
+        if (finishedWaiting)
+        {
+            Application.LoadLevel("GamePlay");
+        }
     }
 
     public void OnDestroy () {

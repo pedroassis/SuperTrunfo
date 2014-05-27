@@ -77,7 +77,8 @@ namespace SuperTrunfo
 
             deck = cardStrategy.getAll();
 
-            cardsToPlayers();
+            if(isMaster)
+                cardsToPlayers();
 
             currentPlayer = currentRoom.players[0];
 			
@@ -96,6 +97,8 @@ namespace SuperTrunfo
                     i++;
                 }
             });
+
+            gameObserver.trigger("cardsToPlayers", currentRoom);
 
         }
 
@@ -135,14 +138,6 @@ namespace SuperTrunfo
 
             if (isTrumph(chosenCard)) {
                 gameObserver.trigger(Events.TRUMPH_ON_GAME, player);
-            }
-
-            if (isMaster || player.playerType == PlayerType.NPC) {
-                socket.sendMessage<Player>(new Message<Player>(
-                    "Play",
-                    player,
-                    player.GetType().FullName
-                ));
             }
 
             cardsOnTable[chosenCard] = currentPlayer;
